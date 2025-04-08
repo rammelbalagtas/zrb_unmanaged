@@ -1,0 +1,4 @@
+@EndUserText.label: 'ZCE_AGGREGATE'
+define service ZSD_CE_AGGREGATE {
+  expose ZCE_AGGREGATE;
+}
