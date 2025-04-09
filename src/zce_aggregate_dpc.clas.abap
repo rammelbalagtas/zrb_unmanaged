@@ -123,7 +123,25 @@ CLASS zce_aggregate_dpc IMPLEMENTATION.
                                       AND total_price IN @lr_total_price
                                       AND currency_code IN @lr_currency
                                       INTO CORRESPONDING FIELDS OF TABLE @lt_data_final.
-                ELSE.
+                ELSEIF lv_grouping IS NOT INITIAL AND
+                       lv_sort_string IS NOT INITIAL.
+                  SELECT (lv_req_elements)
+                                      FROM /dmo/travel
+                                    WHERE travel_id IN @lr_travel_id
+                                      AND agency_id IN @lr_agency
+                                      AND customer_id IN @lr_customer
+                                      AND begin_date IN @lr_begin_date
+                                      AND end_date IN @lr_end_date
+                                      AND booking_fee IN @lr_booking_fee
+                                      AND total_price IN @lr_total_price
+                                      AND currency_code IN @lr_currency
+                                      GROUP BY (lv_grouping)
+                                      ORDER BY (lv_sort_string)
+                                      INTO CORRESPONDING FIELDS OF TABLE @lt_data_final
+                                      OFFSET @lv_offset UP TO @lv_max_rows ROWS.
+                ELSEIF lv_grouping IS NOT INITIAL AND
+                       lv_sort_string IS INITIAL.
+                       lv_sort_string = lv_grouping.
                   SELECT (lv_req_elements)
                                       FROM /dmo/travel
                                     WHERE travel_id IN @lr_travel_id

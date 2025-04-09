@@ -13,6 +13,18 @@
   }
 ]
 
+@UI.chart: [{
+    qualifier: 'Chart1',   //refers to targetQualifier defined in chart facet in Z_C_TRAVEL_UI
+    title: 'Flight Prices of this Travel by Airline',
+    chartType: #COMBINATION_DUAL,
+    dimensions: [ 'Travel_ID'],
+    measures: [ 'Total_Price'],
+    measureAttributes: [ {measure: 'Total_Price', role: #AXIS_1}],
+    dimensionAttributes: [ {dimension: 'Travel_ID', role: #SERIES} ],
+    description: 'Chart shows flight prices of travel by the airlines used per each booking.'
+    }
+]
+
 define root custom entity ZCE_AGGREGATE
 {
       @UI.facet     : [{
@@ -54,6 +66,7 @@ define root custom entity ZCE_AGGREGATE
       End_Date      : abap.dats;
 
       @EndUserText.label: 'Booking Fee'
+      @Aggregation.default: #SUM
       @UI           : { lineItem:    [ { position: 60, qualifier: 'DefaultVariant' } ],
                         identification: [ { position: 60 } ]}
       Booking_Fee   : abap.dec( 17, 3 );
