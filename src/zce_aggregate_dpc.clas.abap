@@ -141,7 +141,7 @@ CLASS zce_aggregate_dpc IMPLEMENTATION.
                                       OFFSET @lv_offset UP TO @lv_max_rows ROWS.
                 ELSEIF lv_grouping IS NOT INITIAL AND
                        lv_sort_string IS INITIAL.
-                       lv_sort_string = lv_grouping.
+                  lv_sort_string = lv_grouping.
                   SELECT (lv_req_elements)
                                       FROM /dmo/travel
                                     WHERE travel_id IN @lr_travel_id
@@ -178,25 +178,25 @@ CLASS zce_aggregate_dpc IMPLEMENTATION.
 
             ENDIF.
 
-            IF io_request->is_total_numb_of_rec_requested( ).
-              SELECT COUNT( * ) FROM /dmo/travel
-                      WHERE travel_id IN @lr_travel_id
-                        AND agency_id IN @lr_agency
-                        AND customer_id IN @lr_customer
-                        AND begin_date IN @lr_begin_date
-                        AND end_date IN @lr_end_date
-                        AND booking_fee IN @lr_booking_fee
-                        AND total_price IN @lr_total_price
-                        AND currency_code IN @lr_currency
-                        INTO @DATA(lv_total_rows).
-              io_response->set_total_number_of_records( lv_total_rows ).
-            ENDIF.
-          CATCH cx_rap_query_provider.
-            io_response->set_data( lt_data ).
-            io_response->set_total_number_of_records( 0 ).
-        ENDTRY.
-      WHEN OTHERS.
+                IF io_request->is_total_numb_of_rec_requested( ).
+                  SELECT COUNT( * ) FROM /dmo/travel
+                          WHERE travel_id IN @lr_travel_id
+                            AND agency_id IN @lr_agency
+                            AND customer_id IN @lr_customer
+                            AND begin_date IN @lr_begin_date
+                            AND end_date IN @lr_end_date
+                            AND booking_fee IN @lr_booking_fee
+                            AND total_price IN @lr_total_price
+                            AND currency_code IN @lr_currency
+                            INTO @DATA(lv_total_rows).
+                  io_response->set_total_number_of_records( lv_total_rows ).
+                ENDIF.
+              CATCH cx_rap_query_provider.
+                io_response->set_data( lt_data ).
+                io_response->set_total_number_of_records( 0 ).
+            ENDTRY.
+          WHEN OTHERS.
 
-    ENDCASE.
-  ENDMETHOD.
+        ENDCASE.
+      ENDMETHOD.
 ENDCLASS.
